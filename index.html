@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>chek khodam by veren</title>
+</head>
+<style>
+body {
+  background: linear-gradient(135deg, #1f1c2c, #928dab);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+.from {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 30px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.from p {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+.from mark {
+  background: #00c6ff;
+  padding: 0 5px;
+  border-radius: 3px;
+  color: #333;
+}
+
+.from input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  outline: none;
+  text-align: center;
+}
+
+.from input[type="text"]::placeholder {
+  color: #ddd;
+}
+
+.from button {
+  background: linear-gradient(45deg, #00c6ff, #0072ff);
+  color: #fff;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.from button:hover {
+  background: linear-gradient(45deg, #0072ff, #00c6ff);
+  transform: translateY(-3px);
+}
+
+.from .loading {
+  display: none;
+  margin-top: 20px;
+  color: #fff;
+  font-style: italic;
+}
+
+.from .hasil {
+  margin-top: 20px;
+  color: #00ff9d;
+  font-weight: bold;
+}
+.from .kredit-info {
+  margin-top: 15px;
+  color: #fff;
+  font-size: 14px;
+}
+
+.from .kredit-habis {
+  color: #ff4d4d;
+  font-weight: bold;
+}
+</style>
+<body>
+<div class="from">
+  <p>Chek Khodam <mark>ultimate</mark> <br>by veren IX A</p>
+  <input type="text" placeholder="Masukkan nama anda" class="nama-input">
+  <button class="periksa-btn">Periksa</button>
+  <div class="loading">
+    <b>Sedang mencari Khodam anda...</b>
+  </div>
+  <div class="hasil"></div>
+  <div class="kredit-info">
+    Kredit tersisa: <span class="kredit-count">25</span>
+  </div>
+</div>
+  <script>
+    let kredit = 25;
+
+document.querySelector('.from button').addEventListener('click', function() {
+  const inputNama = document.querySelector('.nama-input').value.trim();
+  const loading = document.querySelector('.from .loading');
+  const hasil = document.querySelector('.from .hasil');
+  const kreditCount = document.querySelector('.kredit-count');
+
+  if (kredit <= 0) {
+    hasil.textContent = 'Kredit anda telah habis. Tidak bisa melakukan pengecekan lagi.';
+    hasil.style.color = 'red';
+    return;
+  }
+
+  if (inputNama === '') {
+    hasil.textContent = 'Nama tidak boleh kosong.';
+    hasil.style.color = 'red';
+    return;
+  }
+
+  loading.style.display = 'block';
+  hasil.textContent = '';
+
+  // Simulasi pencarian khodam (gunakan API atau logika sesuai kebutuhan)
+  setTimeout(() => {
+    loading.style.display = 'none';
+    const khodam = cariKhodam(inputNama);
+
+    if (khodam) {
+      hasil.textContent = `Khodam anda ditemukan: ${khodam}`;
+      hasil.style.color = '#00ff9d';
+    } else {
+      hasil.textContent = 'Khodam anda tidak ditemukan.';
+      hasil.style.color = 'red';
+    }
+
+    kredit--;
+    kreditCount.textContent = kredit;
+
+    if (kredit <= 0) {
+      hasil.textContent = 'Kredit anda telah habis. Tidak bisa melakukan pengecekan lagi.';
+      hasil.style.color = 'red';
+      document.querySelector('.periksa-btn').disabled = true;
+      document.querySelector('.periksa-btn').style.background = '#ccc';
+      document.querySelector('.periksa-btn').style.cursor = 'not-allowed';
+    }
+  }, 2000);
+});
+
+// Fungsi untuk simulasi pencarian khodam
+function cariKhodam(nama) {
+  const daftarKhodam = [
+    'Khodam Singo Barong',
+    'Khodam Nyai Roro Kidul',
+    'Khodam Semar',
+    'Khodam Prabu Siliwangi',
+    'Khodam Kiai Juru Mudi',
+    'Khodam Raden Mas Said',
+    'Khodam Mbah Joyo Kusumo',
+    'Khodam Mbah Marijan',
+    'Khodam Kiai Slamet',
+    'Khodam Sunan Kalijaga',
+    'Khodam Ki Ageng Selo',
+    'Khodam Dewi Lanjar',
+    'Khodam Eyang Suryo',
+    'Khodam Nyi Blorong',
+    'Khodam Pangeran Diponegoro'
+  ];
+  const randomIndex = Math.floor(Math.random() * daftarKhodam.length);
+  return daftarKhodam[randomIndex];
+}
+  </script>
+</body>
+</html>
